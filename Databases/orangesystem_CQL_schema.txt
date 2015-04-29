@@ -1,0 +1,51 @@
+CREATE KEYSPACE orangesensors WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+
+CREATE TABLE orangesystem.data_archive (
+    global_id int,
+    "timestamp" timestamp,
+    reading float,
+    PRIMARY KEY (global_id, "timestamp")
+) WITH CLUSTERING ORDER BY ("timestamp" ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = '{"keys":"ALL", "rows_per_partition":"NONE"}'
+    AND comment = ''
+    AND compaction = {'min_threshold': '4', 'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32'}
+    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99.0PERCENTILE';
+
+CREATE TABLE orangesystem.sensor_details (
+    global_id int PRIMARY KEY,
+    application text,
+    first_added timestamp,
+    lat double,
+    lng double,
+    measures text,
+    reading float,
+    "timestamp" timestamp,
+    unit text
+) WITH bloom_filter_fp_chance = 0.01
+    AND caching = '{"keys":"ALL", "rows_per_partition":"NONE"}'
+    AND comment = ''
+    AND compaction = {'min_threshold': '4', 'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32'}
+    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99.0PERCENTILE';
+CREATE INDEX sensor_application ON orangesystem.sensor_details (application);
+CREATE INDEX sensor_added ON orangesystem.sensor_details (first_added);
+CREATE INDEX sensor_lat ON orangesystem.sensor_details (lat);
+CREATE INDEX sensor_lng ON orangesystem.sensor_details (lng);
+CREATE INDEX sensor_measures ON orangesystem.sensor_details (measures);
+CREATE INDEX sensor_unit ON orangesystem.sensor_details (unit);

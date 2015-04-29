@@ -1,0 +1,38 @@
+//// SQL TABLES
+
+ > operators
+
++-----------------+-------------+------+-----+-------------------+----------------+
+| Field           | Type        | Null | Key | Default           | Extra          |
++-----------------+-------------+------+-----+-------------------+----------------+
+| operator_id     | int(11)     | NO   | PRI | NULL              | auto_increment |
+| company         | varchar(30) | NO   | UNI | NULL              |                |
+| password        | varchar(64) | NO   |     | NULL              |                |
+| contact_name    | varchar(40) | NO   |     | NULL              |                |
+| contact_address | varchar(50) | NO   |     | NULL              |                |
+| joined          | timestamp   | NO   |     | CURRENT_TIMESTAMP |                |
++-----------------+-------------+------+-----+-------------------+----------------+
+
+ > sensors
+
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| global_id   | int(11)     | NO   | PRI | NULL    | auto_increment |
+| operator_id | int(11)     | NO   |     | NULL    |                |
+| sensor_id   | int(11)     | NO   |     | NULL    |                |
+| application | varchar(30) | YES  |     | NULL    |                |
+| measures    | varchar(20) | NO   |     | NULL    |                |
+| unit        | varchar(10) | NO   |     | NULL    |                |
+| lat         | double      | NO   |     | NULL    |                |
+| lng         | double      | NO   |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+
+ > identifiers
+
++-------------+------------+------+-----+---------+-------+
+| Field       | Type       | Null | Key | Default | Extra |
++-------------+------------+------+-----+---------+-------+
+| operator_id | int(11)    | NO   | PRI | NULL    |       |
+| identifier  | varchar(8) | NO   |     | NULL    |       |
++-------------+------------+------+-----+---------+-------+
